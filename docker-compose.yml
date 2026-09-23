@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
+
+# Optional infrastructure mentioned in the spec (uncomment if you use them):
+#  redis:
+#    image: redis:7-alpine
+#    ports: ["6379:6379"]
+#
+#  postgres:
+#    image: postgres:16-alpine
+#    environment:
+#      POSTGRES_DB: fraud_meta
+#      POSTGRES_USER: fraud
+#      POSTGRES_PASSWORD: fraud
+#    ports: ["5432:5432"]

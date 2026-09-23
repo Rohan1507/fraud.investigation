@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+data/processed/*.db
+evaluation/benchmark_results.json
+.pytest_cache/
+node_modules/
+.DS_Store
